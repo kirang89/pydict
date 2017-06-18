@@ -133,6 +133,15 @@ class Dictionary():
     def __contains__(self, key):
         return key in self.buckets
 
+    def __eq__(self, other):
+        if not isinstance(other, Dictionary):
+            return False
+
+        predicates = [self.size == other.size,
+                      self.buckets == other.buckets,
+                      self.data == other.data]
+        return all(predicates)
+
     def __str__(self):
         mappings = ["\t'{}': '{}'".format(k, v)
                     for k, v in zip(self.buckets, self.data)
