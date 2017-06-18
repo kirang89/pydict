@@ -53,7 +53,7 @@ class HashMap():
         return ord_sum % self.size
 
     def _rehash(self, hashval):
-        return (5 * hashval + 1) % self.size  # Linear Probing
+        return (5 * hashval + 1) % self.size
 
     def _next_slot(self, hashval, key):
         slot = self._rehash(hashval)
@@ -82,11 +82,6 @@ class HashMap():
         if self._load_factor() >= 2/3:
             print "Resizing"
             self._resize()
-
-    def __debug(self):
-        print "Size: {}".format(self.size)
-        print "Keys: {}".format(self.buckets)
-        print "Data: {}".format(self.data)
 
     def get(self, key):
         if key not in self.buckets:
@@ -140,3 +135,8 @@ class HashMap():
                     for k, v in zip(self.buckets, self.data)
                     if k is not None]
         return """{\n%s\n}""" % ",\n".join(mappings)
+
+    def __debug(self):
+        print "Size: {}".format(self.size)
+        print "Keys: {}".format(self.buckets)
+        print "Data: {}".format(self.data)
