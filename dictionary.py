@@ -95,12 +95,10 @@ class Dictionary():
                if keyval == key]
         return self.data[pos[0]]
 
-    def delete(self, key):
-        if key not in self.buckets:
-            raise KeyError
     def get(self, key, default=None):
         return self._get_value(key) if key in self.buckets else default
 
+    def _delete(self, key):
         pos = self.buckets.index(key)
         self.buckets[pos] = None
         self.data[pos] = None
@@ -127,7 +125,10 @@ class Dictionary():
         return self.set(key, value)
 
     def __delitem__(self, key):
-        self.delete(key)
+        if key not in self.buckets:
+            raise KeyError
+
+        self._delete(key)
 
     def __contains__(self, key):
         return key in self.buckets
