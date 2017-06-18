@@ -104,16 +104,16 @@ class Dictionary():
         self.data[pos] = None
 
     def keys(self):
-        return list(self.__iter__())
+        return [key for key in self.buckets if key]
 
     def items(self):
-        return list(self.iteritems())
+        return [self[key] for key in self.keys()]
 
     def iteritems(self):
-        return ((key, val) for key, val in zip(self.buckets, self.data) if key)
+        return DictionaryIterator(self)
 
     def __iter__(self):
-        return (key for key in self.buckets if key)
+        return DictionaryKeyIterator(self)
 
     def __getitem__(self, key):
         if key not in self.buckets:
@@ -158,3 +158,50 @@ class Dictionary():
         print "Size: {}".format(self.size)
         print "Keys: {}".format(self.buckets)
         print "Data: {}".format(self.data)
+
+
+class DictionaryIterator(object):
+    """
+    Iterates through Dictionary while ensuring that it has not
+    been externally modified during the process. Returns key value pair
+    """
+
+    def __init__(self, dictionary):
+        self.dictionary = dictionary
+        self.len = len(dictionary)
+        self.iterator = "all"
+        self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if self.len != len(self.dictionary):
+            raise RuntimeError("dictionary changed during iteration")
+        if self.index == self.len:
+            raise StopIteration
+
+        item = self.item(self.index)
+        self.index += 1
+
+        return item
+
+    __next__ = next
+
+    def item(self, index):
+        key = self.dictionary.keys()[index]
+        value = self.dictionary[key]
+        return (key, value)
+
+    def __len__(self):
+        return self.len
+
+
+class DictionaryKeyIterator(DictionaryIterator):
+    """
+    Subclassed iterator to return keys during iteration.
+    """
+
+    def item(self, index):
+        key = self.dictionary.keys()[index]
+        return key
