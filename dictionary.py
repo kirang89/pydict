@@ -142,6 +142,9 @@ class Dictionary():
                       self.data == other.data]
         return all(predicates)
 
+    def __ne__(self, other):
+        return not self == other
+
     def __str__(self):
         mappings = ["\t'{}': '{}'".format(k, v)
                     for k, v in zip(self.buckets, self.data)
