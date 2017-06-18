@@ -83,10 +83,7 @@ class Dictionary():
             print "Resizing"
             self._resize()
 
-    def get(self, key):
-        if key not in self.buckets:
-            raise KeyError
-
+    def _get_value(self, key):
         hashval = self._hash(key)
         existing_key = self.buckets[hashval]
         if existing_key == key:
@@ -101,6 +98,8 @@ class Dictionary():
     def delete(self, key):
         if key not in self.buckets:
             raise KeyError
+    def get(self, key, default=None):
+        return self._get_value(key) if key in self.buckets else default
 
         pos = self.buckets.index(key)
         self.buckets[pos] = None
@@ -119,6 +118,9 @@ class Dictionary():
         return (key for key in self.buckets if key)
 
     def __getitem__(self, key):
+        if key not in self.buckets:
+            raise KeyError("{}".format(key))
+
         return self.get(key)
 
     def __setitem__(self, key, value):
