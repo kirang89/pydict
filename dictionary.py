@@ -4,7 +4,7 @@
 from __future__ import division
 
 
-class HashMap():
+class Dictionary():
 
     def __init__(self, **kwargs):
         # (Extracted from the documentation of CPython dictionary)
