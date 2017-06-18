@@ -1,6 +1,6 @@
 ## pydict
 
-A simple Python implementation of the CPython dictionary object using Hash Tables.
+A simple Python implementation mimicking CPython dictionary using Hash Tables.
 
 ### Usage Examples
 
