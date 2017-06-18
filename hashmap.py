@@ -107,8 +107,9 @@ class HashMap():
         if key not in self.buckets:
             raise KeyError
 
-        self.buckets.remove(key)
-        self.data.remove(key)
+        pos = self.buckets.index(key)
+        self.buckets[pos] = None
+        self.data[pos] = None
 
     def keys(self):
         return list(self.__iter__())
