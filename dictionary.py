@@ -133,6 +133,9 @@ class Dictionary():
     def __contains__(self, key):
         return key in self.buckets
 
+    def __len__(self):
+        return len(self.keys())
+
     def __eq__(self, other):
         if not isinstance(other, Dictionary):
             return False
